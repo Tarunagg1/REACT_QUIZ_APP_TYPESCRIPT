@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { GlobalStyle, Wrapper } from "./App.styles";
 import QuestionCard from "./components/QuestionCard";
 import { Difficulty, fetchQuizQuestions, QuestionsState } from "./utils/Api";
+import "./app.css";
+import { useDispatch } from "react-redux";
+import { fetchQuizQuestionsAction } from "./redux/actions-creators/question.actiont";
 
 export type AnswerObject = {
   question: string;
@@ -13,6 +16,8 @@ export type AnswerObject = {
 const TOTAL_QUESTIONS = 10;
 
 function App() {
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<QuestionsState[]>([]);
   const [number, setNumber] = useState(0);
@@ -21,14 +26,14 @@ function App() {
   const [gameOver, setGameOver] = useState(true);
 
   const startQuiz = async () => {
+
+
     setGameOver(false);
     setLoading(true);
     const newQuestions = await fetchQuizQuestions(
       TOTAL_QUESTIONS,
       Difficulty.EASY
     );
-
-    console.log(newQuestions);
     setQuestions(newQuestions);
     setScore(0);
     setUserAnswers([]);
@@ -67,15 +72,29 @@ function App() {
     }
   };
 
+  const restartQuiz = () => {
+    setGameOver(true);
+    setScore(0);
+    setUserAnswers([]);
+    setNumber(0);
+    setLoading(false);
+  };
+
   return (
     <>
       <GlobalStyle />
       <Wrapper>
         <div className="App">
           <h1>REACT QUIZ</h1>
-          <button className="start" onClick={startQuiz}>
-            Start
-          </button>
+          {!loading && !gameOver ? (
+            <button className="start" onClick={restartQuiz}>
+              Restart
+            </button>
+          ) : (
+            <button className="start" onClick={startQuiz}>
+              Start
+            </button>
+          )}
 
           {!gameOver ? <p className="score">Score: {score}</p> : null}
           {loading ? <p>Loading Questions...</p> : null}

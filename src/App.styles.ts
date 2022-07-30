@@ -1,5 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components';
-// import BGImage from './images/nattu-adnan-unsplash.jpg';
+import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   html {
@@ -17,6 +16,8 @@ export const GlobalStyle = createGlobalStyle`
   * {
     font-family: 'Catamaran', sans-serif;
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
 `;
 
@@ -51,7 +52,8 @@ export const Wrapper = styled.div`
     margin: 20px;
   }
 
-  .start, .next {
+  .start,
+  .next {
     cursor: pointer;
     background: linear-gradient(180deg, #ffffff, #ffcc91);
     border: 2px solid #d38558;
